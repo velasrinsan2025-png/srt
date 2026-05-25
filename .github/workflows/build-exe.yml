@@ -1,0 +1,41 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ "main" ] # Triggers on push to the main branch
+  workflow_dispatch:     # Adds a button to trigger it manually
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' # You can change this to match your local version
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller pymupdf google-genai google-auth
+        
+        # NOTE: If you create a requirements.txt file later, 
+        # replace the 'pip install pymupdf...' line above with:
+        # pip install -r requirements.txt
+
+    - name: Build EXE with PyInstaller
+      run: |
+        pyinstaller --onefile --windowed --hidden-import=google.oauth2.service_account --hidden-import=google.genai pdf-to-srt.py
+        
+        # NOTE: If you added an icon, change the line above to:
+        # pyinstaller --onefile --windowed --icon=app_icon.ico --hidden-import=google.oauth2.service_account --hidden-import=google.genai pdf-to-srt.py
+
+    - name: Upload EXE as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SubtitleFixer-App
+        path: dist/pdf-to-srt.exe
