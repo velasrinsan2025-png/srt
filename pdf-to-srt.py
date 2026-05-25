@@ -443,10 +443,12 @@ TARGET BLOCK TO FIX:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = SubtitleFixerApp(root)
-    root.mainloop()
-    # Change this:
-# root.iconbitmap("app_icon.ico")
-
-# To this:
+    
+    # 1. Set the icon right after creating the window
     root.iconbitmap(resource_path("app_icon.ico"))
+    
+    # 2. Initialize your app contents
+    app = SubtitleFixerApp(root)
+    
+    # 3. Start the application loop (must always be the absolute last line)
+    root.mainloop()
