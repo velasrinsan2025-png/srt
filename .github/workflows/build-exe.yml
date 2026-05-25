@@ -29,7 +29,7 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onefile --windowed --hidden-import=google.oauth2.service_account --hidden-import=google.genai pdf-to-srt.py
+        pyinstaller --onefile --windowed --icon=app_icon.ico --add-data "app_icon.ico;." --hidden-import=google.oauth2.service_account --hidden-import=google.genai pdf-to-srt.py
         
         # NOTE: If you added an icon, change the line above to:
         # pyinstaller --onefile --windowed --icon=app_icon.ico --hidden-import=google.oauth2.service_account --hidden-import=google.genai pdf-to-srt.py
